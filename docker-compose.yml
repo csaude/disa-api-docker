@@ -1,0 +1,40 @@
+version: '3.2'
+services:
+    disa-api-integ:
+        build:
+            context: .
+            dockerfile: ./integ/Dockerfile
+        container_name: disa-api-integ
+        ports:
+            - "8085:8080"
+            # - "8000:8000"
+        networks: 
+            - network
+        depends_on: 
+            - "disa-api-db"
+        volumes: 
+          - type: bind
+            source: /opt/disa/data
+            target: /opt/disa/data
+        restart: unless-stopped
+   
+    disa-api-db:
+        build:
+            context: ./database
+        container_name: disa-api-db
+        ports: 
+            - "3310:3306"
+        networks: 
+            - network
+        volumes:
+            - type: volume
+              source: dbdata
+              target: /opt/disa/data
+        restart: unless-stopped
+
+networks: 
+  network:
+    driver: bridge
+
+volumes:
+  dbdata:
