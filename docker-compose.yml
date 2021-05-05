@@ -7,7 +7,7 @@ services:
         container_name: disa-api-integ
         ports:
             - "8085:8080"
-            # - "8000:8000"
+            - "8001:8001"
         networks: 
             - network
         depends_on: 
