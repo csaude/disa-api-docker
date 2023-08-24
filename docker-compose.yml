@@ -8,23 +8,43 @@ services:
         ports:
             - "8085:8080"
             - "8001:8001"
-        networks: 
+        networks:
             - network
-        depends_on: 
+        depends_on:
             - "disa-api-db"
-        volumes: 
+        volumes:
           - type: bind
             source: /opt/disa/data
             target: /opt/disa/data
         restart: unless-stopped
-   
+
+    disa-weekly-report:
+        image: disa-weekly-report:2.2.1-SNAPSHOT
+        container_name: disa-weekly-report
+        networks:
+            - network
+        restart: unless-stopped
+        environment:
+            - DISA_DATASOURCE_URL=
+            - DISA_DATASOURCE_USERNAME=
+            - DISA_DATASOURCE_PASSWORD=
+            - DISA_MAIL_USERNAME=
+            - DISA_NOTIFICATION_CRON=
+
+    disa-notifier:
+        image: disa-notifier:latest
+        container_name: disa-notifier
+        networks:
+            - network
+        restart: unless-stopped
+
     disa-api-db:
         build:
             context: ./database
         container_name: disa-api-db
-        ports: 
+        ports:
             - "3310:3306"
-        networks: 
+        networks:
             - network
         volumes:
             - type: volume
@@ -32,7 +52,7 @@ services:
               target: /opt/disa/data
         restart: unless-stopped
 
-networks: 
+networks:
   network:
     driver: bridge
 
