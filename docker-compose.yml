@@ -34,9 +34,16 @@ services:
     disa-notifier:
         image: disa-notifier:latest
         container_name: disa-notifier
+        ports:
+            - "8571:8571"
         networks:
             - network
         restart: unless-stopped
+        environment:
+            - DISA_MAIL_HOST=
+            - DISA_MAIL_PORT=
+            - DISA_MAIL_USERNAME=
+            - DISA_MAIL_PASSWORD=
 
     disa-api-db:
         build:
