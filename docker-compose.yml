@@ -23,6 +23,8 @@ services:
         container_name: disa-weekly-report
         networks:
             - network
+        depends_on:
+            - "disa-api-db"
         restart: unless-stopped
         environment:
             - DISA_DATASOURCE_URL=
@@ -30,9 +32,10 @@ services:
             - DISA_DATASOURCE_PASSWORD=
             - DISA_MAIL_USERNAME=
             - DISA_NOTIFICATION_CRON=
+            - DISA_NOTIFIER_URL=
 
     disa-notifier:
-        image: disa-notifier:latest
+        image: disa-notifier:0.0.1-SNAPSHOT
         container_name: disa-notifier
         ports:
             - "8571:8571"
@@ -49,8 +52,6 @@ services:
         build:
             context: ./database
         container_name: disa-api-db
-        ports:
-            - "3310:3306"
         networks:
             - network
         volumes:
