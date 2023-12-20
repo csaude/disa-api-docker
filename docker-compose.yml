@@ -52,6 +52,8 @@ services:
         build:
             context: ./database
         container_name: disa-api-db
+        ports:
+            - "3310:3306"
         networks:
             - network
         volumes:
