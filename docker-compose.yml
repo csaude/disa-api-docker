@@ -19,7 +19,7 @@ services:
         restart: unless-stopped
 
     disa-weekly-report:
-        image: disa-weekly-report:2.3.1-SNAPSHOT
+        image: disa-weekly-report:2.4.0
         container_name: disa-weekly-report
         networks:
             - network
@@ -35,7 +35,7 @@ services:
             - DISA_NOTIFIER_URL=
 
     disa-notifier:
-        image: disa-notifier:1.0.1-SNAPSHOT
+        image: disa-notifier:1.0.1
         container_name: disa-notifier
         ports:
             - "8571:8571"
