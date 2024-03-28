@@ -49,17 +49,19 @@ services:
             - DISA_MAIL_PASSWORD=
 
     disa-api-db:
-        build:
-            context: ./database
+        image: mysql:8.3.0
         container_name: disa-api-db
+        ports:
+            - "3310:3306"
         networks:
             - network
         volumes:
-            - type: volume
-              source: dbdata
-              target: /opt/disa/data
+            - dbdata:/var/lib/mysql
+            - ./database/localtime:/etc/localtime
         restart: unless-stopped
-
+        environment:
+            - MYSQL_ROOT_PASSWORD=
+            - MYSQL_DATABASE=ViralLoadData
 networks:
   network:
     driver: bridge
