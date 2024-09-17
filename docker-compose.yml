@@ -19,7 +19,7 @@ services:
         restart: unless-stopped
 
     disa-weekly-report:
-        image: disa-weekly-report:2.4.1-SNAPSHOT
+        image: disa-weekly-report:2.5.1-SNAPSHOT
         container_name: disa-weekly-report
         networks:
             - network
@@ -49,19 +49,20 @@ services:
             - DISA_MAIL_PASSWORD=
 
     disa-api-db:
-        build:
-            context: ./database
+        image: mysql:8.3.0
         container_name: disa-api-db
         ports:
             - "3310:3306"
         networks:
             - network
         volumes:
-            - type: volume
-              source: dbdata
-              target: /opt/disa/data
+            - dbdata:/var/lib/mysql
+            - ./database/localtime:/etc/localtime
+            - ./database/custom.cnf:/etc/mysql/conf.d/custom.cnf
         restart: unless-stopped
-
+        environment:
+            - MYSQL_ROOT_PASSWORD=
+            - MYSQL_DATABASE=ViralLoadData
 networks:
   network:
     driver: bridge
