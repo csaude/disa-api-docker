@@ -1,8 +1,10 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:17-jdk-alpine
 
 LABEL maintainer="his@fgh.org.mz" 
 
 VOLUME [ "/opt/disa/data" ]
+
+RUN ln -s /usr/share/zoneinfo/Africa/Maputo /etc/localtime
 
 EXPOSE 8080
 
